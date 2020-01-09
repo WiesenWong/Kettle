@@ -1,0 +1,9 @@
+*.kjb
+*.ktr
+administration-console/
+biserver-ce/
+data-integration 8.1/
+data-integration/
+pentaho-server/
+report-designer/
+targetPath/
