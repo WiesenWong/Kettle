@@ -353,7 +353,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C:\Users\hdshk\Desktop\pentaho\test\do_it.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/do_it.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>

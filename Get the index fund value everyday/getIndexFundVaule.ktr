@@ -518,11 +518,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Filter rows</from>
-      <to>Merge rows (diff)</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Merge rows (diff)</from>
       <to>Switch / case</to>
       <enabled>Y</enabled>
@@ -544,6 +539,16 @@
     </hop>
     <hop>
       <from>Select values 2</from>
+      <to>Merge rows (diff)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter rows</from>
+      <to>Sort rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort rows</from>
       <to>Merge rows (diff)</to>
       <enabled>Y</enabled>
     </hop>
@@ -611,7 +616,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <send_true_to>Merge rows (diff)</send_true_to>
+    <send_true_to>Sort rows</send_true_to>
     <send_false_to/>
     <compare>
       <condition>
@@ -752,7 +757,7 @@
     </values>
     <flag_field>flag</flag_field>
     <reference>Select values 2</reference>
-    <compare>Filter rows</compare>
+    <compare>Sort rows</compare>
     <compare>
     </compare>
     <attributes/>
@@ -1137,6 +1142,11 @@
 , percentage
 , createtime
 FROM index_fund_value
+order by   
+code
+, nav
+, percentage
+, createtime
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -1257,10 +1267,6 @@ FROM index_fund_value
         <name>percentage</name>
         <rename>percentage</rename>
       </value>
-      <value>
-        <name>flag</name>
-        <rename>flag</rename>
-      </value>
     </lookup>
     <attributes/>
     <cluster_schema/>
@@ -1272,6 +1278,72 @@ FROM index_fund_value
     </remotesteps>
     <GUI>
       <xloc>944</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort rows</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>code</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>nav</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>percentage</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>createtime</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>800</xloc>
       <yloc>272</yloc>
       <draw>Y</draw>
     </GUI>
