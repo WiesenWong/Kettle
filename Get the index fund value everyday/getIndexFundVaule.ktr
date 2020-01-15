@@ -441,7 +441,7 @@
     <server>127.0.0.1</server>
     <type>MYSQL</type>
     <access>Native</access>
-    <database>test</database>
+    <database>index_fund</database>
     <port>3306</port>
     <username>root</username>
     <password>Encrypted 2be98afc86aa7f2e49c10a063d19cf68e</password>
@@ -538,11 +538,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values 2</from>
-      <to>Merge rows (diff)</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Filter rows</from>
       <to>Sort rows</to>
       <enabled>Y</enabled>
@@ -553,9 +548,9 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows</from>
-      <to>Text file output</to>
-      <enabled>N</enabled>
+      <from>Select values 2</from>
+      <to>Merge rows (diff)</to>
+      <enabled>Y</enabled>
     </hop>
   </order>
   <step>
@@ -626,7 +621,7 @@
     <compare>
       <condition>
         <negated>N</negated>
-        <leftvalue>createtime</leftvalue>
+        <leftvalue>time</leftvalue>
         <function>IS NOT NULL</function>
         <rightvalue/>
       </condition>
@@ -754,11 +749,11 @@
     </partitioning>
     <keys>
       <key>code</key>
-      <key>createtime</key>
+      <key>time</key>
     </keys>
     <values>
+      <value>nav</value>
       <value>percentage</value>
-      <value>createtime</value>
     </values>
     <flag_field>flag</flag_field>
     <reference>Select values 2</reference>
@@ -909,7 +904,7 @@
       </meta>
       <meta>
         <name>time</name>
-        <rename>createtime</rename>
+        <rename>time</rename>
         <type>Date</type>
         <length>-2</length>
         <precision>-2</precision>
@@ -961,7 +956,7 @@
         <name>percentage</name>
       </field>
       <field>
-        <name>createtime</name>
+        <name>time</name>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -1016,8 +1011,8 @@
         <storage_type/>
       </meta>
       <meta>
-        <name>createtime</name>
-        <rename>createtime</rename>
+        <name>time</name>
+        <rename>time</rename>
         <type>Date</type>
         <length>-2</length>
         <precision>-2</precision>
@@ -1042,7 +1037,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>672</xloc>
+      <xloc>336</xloc>
       <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1075,23 +1070,7 @@
         <presorted>N</presorted>
       </field>
       <field>
-        <name>nav</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>percentage</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>createtime</name>
+        <name>time</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -1173,7 +1152,7 @@
     <default_target_step/>
     <cases>
       <case>
-        <value>chaged</value>
+        <value>changed</value>
         <target_step>Update</target_step>
       </case>
       <case>
@@ -1211,13 +1190,11 @@
   code
 , nav
 , percentage
-, createtime
-FROM index_fund_value
+, time
+FROM fund_value_his
 order by   
 code
-, nav
-, percentage
-, createtime
+, time
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -1251,7 +1228,7 @@ code
     </partitioning>
     <connection>Mysql</connection>
     <schema/>
-    <table>index_fund_value</table>
+    <table>fund_value_his</table>
     <commit>1000</commit>
     <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
@@ -1280,8 +1257,8 @@ code
         <stream_name>percentage</stream_name>
       </field>
       <field>
-        <column_name>createtime</column_name>
-        <stream_name>createtime</stream_name>
+        <column_name>time</column_name>
+        <stream_name>time</stream_name>
       </field>
     </fields>
     <attributes/>
@@ -1310,14 +1287,14 @@ code
       <schema_name/>
     </partitioning>
     <connection>Mysql</connection>
-    <skip_lookup>N</skip_lookup>
+    <skip_lookup>Y</skip_lookup>
     <commit>100</commit>
     <use_batch>N</use_batch>
     <error_ignored>N</error_ignored>
     <ignore_flag_field/>
     <lookup>
       <schema/>
-      <table>index_fund_value</table>
+      <table>fund_value_his</table>
       <key>
         <name>code</name>
         <field>code</field>
@@ -1325,8 +1302,8 @@ code
         <name2/>
       </key>
       <key>
-        <name>createtime</name>
-        <field>createtime</field>
+        <name>time</name>
+        <field>time</field>
         <condition>=</condition>
         <name2/>
       </key>
@@ -1350,111 +1327,6 @@ code
     <GUI>
       <xloc>944</xloc>
       <yloc>272</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Text file output</name>
-    <type>TextFileOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <separator>,</separator>
-    <enclosure>"</enclosure>
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>Y</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
-    <encoding>UTF-8</encoding>
-    <endedLine/>
-    <fileNameInField>N</fileNameInField>
-    <fileNameField/>
-    <create_parent_folder>Y</create_parent_folder>
-    <file>
-      <name>${Internal.Entry.Current.Directory}/fund_data_2</name>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
-      <extention>csv</extention>
-      <append>N</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
-      <add_to_result_filenames>Y</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery>0</splitevery>
-    </file>
-    <fields>
-      <field>
-        <name>code</name>
-        <type>String</type>
-        <format>#</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>6</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>nav</name>
-        <type>Number</type>
-        <format>#,###.####</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>percentage</name>
-        <type>Number</type>
-        <format>#,###.####</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>createtime</name>
-        <type>Date</type>
-        <format>yyyy-MM-dd HH:mm:ss</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>both</trim_type>
-        <length>10</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>800</xloc>
-      <yloc>432</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

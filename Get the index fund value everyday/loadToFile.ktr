@@ -440,7 +440,7 @@
     <server>127.0.0.1</server>
     <type>MYSQL</type>
     <access>Native</access>
-    <database>test</database>
+    <database>index_fund</database>
     <port>3306</port>
     <username>root</username>
     <password>Encrypted 2be98afc86aa7f2e49c10a063d19cf68e</password>
@@ -513,11 +513,12 @@
   code
 , nav
 , percentage
+, time
 , createtime
-FROM index_fund_value
+FROM fund_value_his
 order by   
 code
-, createtime
+, time
 
 </sql>
     <limit>0</limit>
@@ -615,6 +616,18 @@ code
         <nullif/>
         <trim_type>both</trim_type>
         <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>time</name>
+        <type>Date</type>
+        <format>yyyy-MM-dd HH:mm:ss</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>10</length>
         <precision>-1</precision>
       </field>
       <field>
