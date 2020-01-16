@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `fund_hold_info` (
 
 -- 数据导出被取消选择。
 -- 导出  表 index_fund.fund_value_his 结构
-DROP TABLE IF EXISTS `fund_value_his`;
+DROP TABLE IF EXISTS `fund_value_his`; 
 CREATE TABLE IF NOT EXISTS `fund_value_his` (
   `code` varchar(6) NOT NULL COMMENT '指数基金代码',
   `nav` double NOT NULL COMMENT '指数基金净值',
