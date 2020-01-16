@@ -416,7 +416,7 @@
     <feedback_size>50000</feedback_size>
     <using_thread_priorities>Y</using_thread_priorities>
     <shared_objects_file/>
-    <capture_step_performance>N</capture_step_performance>
+    <capture_step_performance>Y</capture_step_performance>
     <step_performance_capturing_delay>1000</step_performance_capturing_delay>
     <step_performance_capturing_size_limit>100</step_performance_capturing_size_limit>
     <dependencies>
@@ -493,78 +493,103 @@
   </connection>
   <order>
     <hop>
-      <from>REST client</from>
-      <to>JSON input</to>
+      <from>gifv_rest_get_data</from>
+      <to>gifv_jsoni_resolve_json</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>JSON input</from>
-      <to>Select values</to>
+      <from>gifv_jsoni_resolve_json</from>
+      <to>gifv_sv_table_field</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values</from>
-      <to>Filter rows</to>
+      <from>gifv_sv_table_field</from>
+      <to>gifv_fr_filter_null_data</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>CSV file input</from>
-      <to>String operations</to>
+      <from>gifv_so_left_padding</from>
+      <to>gifv_rest_get_data</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>String operations</from>
-      <to>REST client</to>
+      <from>gifv_mr_data_table</from>
+      <to>gifv_swcs_data_table</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Merge rows (diff)</from>
-      <to>Switch / case</to>
+      <from>gifv_swcs_data_table</from>
+      <to>gifv_to_fund_value_his</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Switch / case</from>
-      <to>Table output</to>
+      <from>gifv_ti_fund_value_his</from>
+      <to>gifv_sv_fund_value_his_field</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Switch / case</from>
-      <to>Update</to>
+      <from>gifv_fr_filter_null_data</from>
+      <to>gifv_sr_code_and_time</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Table input</from>
-      <to>Select values 2</to>
+      <from>gifv_sr_code_and_time</from>
+      <to>gifv_mr_data_table</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Filter rows</from>
-      <to>Sort rows</to>
+      <from>gifv_sv_fund_value_his_field</from>
+      <to>gifv_mr_data_table</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows</from>
-      <to>Merge rows (diff)</to>
+      <from>gifv_csvi_fund_hold_data</from>
+      <to>gifv_sv_code</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values 2</from>
-      <to>Merge rows (diff)</to>
+      <from>gifv_csvi_fund_hold_data</from>
+      <to>gifv_to_copy_fund_hold_info</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>gifv_ur_code</from>
+      <to>gifv_so_left_padding</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>gifv_sv_code</from>
+      <to>gifv_sr_code</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>gifv_sr_code</from>
+      <to>gifv_ur_code</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>gifv_swcs_data_table</from>
+      <to>gifv_updt_fund_value_his</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>gifv_swcs_data_table</from>
+      <to>空操作 (什么也不做)</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>CSV file input</name>
+    <name>gifv_csvi_fund_hold_data</name>
     <type>CsvInput</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${Internal.Entry.Current.Directory}/data.csv</filename>
+    <filename>${Internal.Entry.Current.Directory}/fund_hold_data.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -577,17 +602,61 @@
     <parallel>N</parallel>
     <newline_possible>N</newline_possible>
     <format/>
-    <encoding/>
+    <encoding>UTF-8</encoding>
     <fields>
+      <field>
+        <name>user</name>
+        <type>String</type>
+        <format/>
+        <currency>￥</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>15</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+      </field>
       <field>
         <name>code</name>
         <type>String</type>
-        <format>#</format>
-        <currency>$</currency>
+        <format/>
+        <currency>￥</currency>
         <decimal>.</decimal>
         <group>,</group>
         <length>6</length>
         <precision>0</precision>
+        <trim_type>both</trim_type>
+      </field>
+      <field>
+        <name>nav</name>
+        <type>Number</type>
+        <format>##.#####</format>
+        <currency>￥</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>6</length>
+        <precision>4</precision>
+        <trim_type>both</trim_type>
+      </field>
+      <field>
+        <name>share</name>
+        <type>Number</type>
+        <format>##.#####</format>
+        <currency>￥</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>8</length>
+        <precision>3</precision>
+        <trim_type>both</trim_type>
+      </field>
+      <field>
+        <name>cost</name>
+        <type>Number</type>
+        <format>##.#####</format>
+        <currency>￥</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>13</length>
+        <precision>-1</precision>
         <trim_type>both</trim_type>
       </field>
     </fields>
@@ -600,13 +669,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>64</xloc>
-      <yloc>272</yloc>
+      <xloc>80</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Filter rows</name>
+    <name>gifv_fr_filter_null_data</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -616,14 +685,42 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <send_true_to>Sort rows</send_true_to>
+    <send_true_to>gifv_sr_code_and_time</send_true_to>
     <send_false_to/>
     <compare>
       <condition>
         <negated>N</negated>
-        <leftvalue>time</leftvalue>
-        <function>IS NOT NULL</function>
-        <rightvalue/>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <leftvalue>time</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>percentage</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>AND</operator>
+            <leftvalue>nav</leftvalue>
+            <function>&lt;></function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>Number</type>
+              <text>0.0</text>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>N</isnull>
+              <mask>#.#</mask>
+            </value>
+          </condition>
+        </conditions>
       </condition>
     </compare>
     <attributes/>
@@ -635,13 +732,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>688</xloc>
-      <yloc>272</yloc>
+      <xloc>944</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>JSON input</name>
+    <name>gifv_jsoni_resolve_json</name>
     <type>JsonInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -731,13 +828,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>448</xloc>
-      <yloc>272</yloc>
+      <xloc>736</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Merge rows (diff)</name>
+    <name>gifv_mr_data_table</name>
     <type>MergeRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -756,8 +853,8 @@
       <value>percentage</value>
     </values>
     <flag_field>flag</flag_field>
-    <reference>Select values 2</reference>
-    <compare>Sort rows</compare>
+    <reference>gifv_sv_fund_value_his_field</reference>
+    <compare>gifv_sr_code_and_time</compare>
     <compare>
     </compare>
     <attributes/>
@@ -769,13 +866,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>816</xloc>
-      <yloc>128</yloc>
+      <xloc>1168</xloc>
+      <yloc>384</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>REST client</name>
+    <name>gifv_rest_get_data</name>
     <type>Rest</type>
     <description/>
     <distribute>Y</distribute>
@@ -821,13 +918,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>336</xloc>
-      <yloc>272</yloc>
+      <xloc>736</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values</name>
+    <name>gifv_sv_table_field</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -840,15 +937,19 @@
     <fields>
       <field>
         <name>code</name>
+        <rename/>
       </field>
       <field>
         <name>nav</name>
+        <rename/>
       </field>
       <field>
         <name>percentage</name>
+        <rename/>
       </field>
       <field>
         <name>time</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -929,13 +1030,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>576</xloc>
-      <yloc>272</yloc>
+      <xloc>944</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values 2</name>
+    <name>gifv_sv_fund_value_his_field</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -948,15 +1049,19 @@
     <fields>
       <field>
         <name>code</name>
+        <rename/>
       </field>
       <field>
         <name>nav</name>
+        <rename/>
       </field>
       <field>
         <name>percentage</name>
+        <rename/>
       </field>
       <field>
         <name>time</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -1037,13 +1142,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>336</xloc>
-      <yloc>32</yloc>
+      <xloc>1168</xloc>
+      <yloc>560</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort rows</name>
+    <name>gifv_sr_code_and_time</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1087,13 +1192,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>800</xloc>
-      <yloc>272</yloc>
+      <xloc>1168</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>String operations</name>
+    <name>gifv_so_left_padding</name>
     <type>StringOperations</type>
     <description/>
     <distribute>Y</distribute>
@@ -1127,13 +1232,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>272</yloc>
+      <xloc>528</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Switch / case</name>
+    <name>gifv_swcs_data_table</name>
     <type>SwitchCase</type>
     <description/>
     <distribute>Y</distribute>
@@ -1149,15 +1254,15 @@
     <case_value_format/>
     <case_value_decimal/>
     <case_value_group/>
-    <default_target_step/>
+    <default_target_step>空操作 (什么也不做)</default_target_step>
     <cases>
       <case>
         <value>changed</value>
-        <target_step>Update</target_step>
+        <target_step>gifv_updt_fund_value_his</target_step>
       </case>
       <case>
         <value>new</value>
-        <target_step>Table output</target_step>
+        <target_step>gifv_to_fund_value_his</target_step>
       </case>
     </cases>
     <attributes/>
@@ -1169,13 +1274,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>944</xloc>
-      <yloc>128</yloc>
+      <xloc>1376</xloc>
+      <yloc>384</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Table input</name>
+    <name>gifv_ti_fund_value_his</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1192,10 +1297,16 @@
 , percentage
 , time
 FROM fund_value_his
+where time > (
+case 
+when CURRENT_TIME() &lt; '09:00:00' then DATE_ADD(CURRENT_DATE() , INTERVAL -1 DAY)
+else 
+CURRENT_DATE()
+end
+)
 order by   
 code
-, time
-</sql>
+, time</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -1210,13 +1321,13 @@ code
       </output>
     </remotesteps>
     <GUI>
-      <xloc>64</xloc>
-      <yloc>32</yloc>
+      <xloc>944</xloc>
+      <yloc>560</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Table output</name>
+    <name>gifv_to_fund_value_his</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1270,13 +1381,13 @@ code
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1104</xloc>
-      <yloc>128</yloc>
+      <xloc>1632</xloc>
+      <yloc>384</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Update</name>
+    <name>gifv_updt_fund_value_his</name>
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
@@ -1325,8 +1436,223 @@ code
       </output>
     </remotesteps>
     <GUI>
-      <xloc>944</xloc>
-      <yloc>272</yloc>
+      <xloc>1376</xloc>
+      <yloc>576</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>gifv_ur_code</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>code</name>
+        <case_insensitive>Y</case_insensitive>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>528</xloc>
+      <yloc>352</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>gifv_sv_code</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>code</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>code</name>
+        <rename>code</rename>
+        <type>String</type>
+        <length>6</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>304</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>gifv_sr_code</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>code</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>304</xloc>
+      <yloc>352</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>空操作 (什么也不做)</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1376</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>gifv_to_copy_fund_hold_info</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>Mysql</connection>
+    <schema/>
+    <table>fund_hold_info</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+      <field>
+        <column_name>user</column_name>
+        <stream_name>user</stream_name>
+      </field>
+      <field>
+        <column_name>code</column_name>
+        <stream_name>code</stream_name>
+      </field>
+      <field>
+        <column_name>nav</column_name>
+        <stream_name>nav</stream_name>
+      </field>
+      <field>
+        <column_name>share</column_name>
+        <stream_name>share</stream_name>
+      </field>
+      <field>
+        <column_name>cost</column_name>
+        <stream_name>cost</stream_name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>80</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

@@ -492,13 +492,13 @@
   </connection>
   <order>
     <hop>
-      <from>Table input</from>
-      <to>Text file output</to>
+      <from>gifv_ti_fund_value_his</from>
+      <to>gifv_tfo_fund_data</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Table input</name>
+    <name>gifv_ti_fund_value_his</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -541,7 +541,7 @@ code
     </GUI>
   </step>
   <step>
-    <name>Text file output</name>
+    <name>gifv_tfo_fund_data</name>
     <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -565,7 +565,7 @@ code
     <fileNameField/>
     <create_parent_folder>Y</create_parent_folder>
     <file>
-      <name>${Internal.Entry.Current.Directory}/fund_data</name>
+      <name>${Internal.Entry.Current.Directory}/fund_data_his</name>
       <servlet_output>N</servlet_output>
       <do_not_open_new_file_init>Y</do_not_open_new_file_init>
       <extention>csv</extention>
