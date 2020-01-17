@@ -492,13 +492,135 @@
   </connection>
   <order>
     <hop>
-      <from>gifv_ti_fund_value_his</from>
-      <to>gifv_tfo_fund_data</to>
+      <from>ltf_ti_fund_value_his</from>
+      <to>ltf_to_fund_value_his</to>
       <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>ltf_ti_fund_hold_info</from>
+      <to>ltf_to_fund_hold_info</to>
+      <enabled>N</enabled>
     </hop>
   </order>
   <step>
-    <name>gifv_ti_fund_value_his</name>
+    <name>ltf_to_fund_value_his</name>
+    <type>TextFileOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <separator>,</separator>
+    <enclosure/>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding>UTF-8</encoding>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>N</create_parent_folder>
+    <file>
+      <name>${Internal.Entry.Current.Directory}/fund_value_his</name>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extention>csv</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>code</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>6</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>nav</name>
+        <type>Number</type>
+        <format>####.####</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>percentage</name>
+        <type>Number</type>
+        <format>####.####</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>time</name>
+        <type>Date</type>
+        <format>yyyy-MM-dd HH:mm:ss</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>createtime</name>
+        <type>Date</type>
+        <format>yyyy-MM-dd HH:mm:ss</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>304</xloc>
+      <yloc>128</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>ltf_ti_fund_value_his</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -541,7 +663,7 @@ code
     </GUI>
   </step>
   <step>
-    <name>gifv_tfo_fund_data</name>
+    <name>ltf_to_fund_hold_info</name>
     <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -552,7 +674,7 @@ code
       <schema_name/>
     </partitioning>
     <separator>,</separator>
-    <enclosure>"</enclosure>
+    <enclosure/>
     <enclosure_forced>N</enclosure_forced>
     <enclosure_fix_disabled>N</enclosure_fix_disabled>
     <header>Y</header>
@@ -563,9 +685,9 @@ code
     <endedLine/>
     <fileNameInField>N</fileNameInField>
     <fileNameField/>
-    <create_parent_folder>Y</create_parent_folder>
+    <create_parent_folder>N</create_parent_folder>
     <file>
-      <name>${Internal.Entry.Current.Directory}/fund_data_his</name>
+      <name>${Internal.Entry.Current.Directory}/fund_hold_info</name>
       <servlet_output>N</servlet_output>
       <do_not_open_new_file_init>Y</do_not_open_new_file_init>
       <extention>csv</extention>
@@ -583,9 +705,21 @@ code
     </file>
     <fields>
       <field>
+        <name>user</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+      <field>
         <name>code</name>
         <type>String</type>
-        <format>#</format>
+        <format/>
         <currency/>
         <decimal/>
         <group/>
@@ -595,9 +729,33 @@ code
         <precision>-1</precision>
       </field>
       <field>
+        <name>fund_type</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>10</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>fund_name</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+      <field>
         <name>nav</name>
         <type>Number</type>
-        <format>#,###.####</format>
+        <format>####.####</format>
         <currency/>
         <decimal/>
         <group/>
@@ -607,9 +765,21 @@ code
         <precision>-1</precision>
       </field>
       <field>
-        <name>percentage</name>
+        <name>share</name>
         <type>Number</type>
-        <format>#,###.####</format>
+        <format>####.####</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>both</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>cost</name>
+        <type>Number</type>
+        <format>####.####</format>
         <currency/>
         <decimal/>
         <group/>
@@ -620,26 +790,26 @@ code
       </field>
       <field>
         <name>time</name>
-        <type>Date</type>
+        <type>Timestamp</type>
         <format>yyyy-MM-dd HH:mm:ss</format>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>both</trim_type>
-        <length>10</length>
+        <length>-1</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>createtime</name>
-        <type>Date</type>
+        <type>Timestamp</type>
         <format>yyyy-MM-dd HH:mm:ss</format>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>both</trim_type>
-        <length>10</length>
+        <length>-1</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -653,7 +823,42 @@ code
     </remotesteps>
     <GUI>
       <xloc>304</xloc>
-      <yloc>128</yloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>ltf_ti_fund_hold_info</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>Mysql</connection>
+    <sql>SELECT
+*
+FROM fund_hold_info order by user,fund_type
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>96</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
