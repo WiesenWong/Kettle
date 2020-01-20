@@ -1425,7 +1425,8 @@
 FROM fund_value_his
 where time > (
 case 
-when CURRENT_TIME() &lt; '09:00:00' then DATE_ADD(CURRENT_DATE() , INTERVAL -1 DAY)
+when CURRENT_TIME() &lt; '09:30:00' and DAYOFWEEK(CURRENT_TIME()) = 2 then DATE_ADD(CURRENT_DATE() , INTERVAL - 3 DAY)
+when CURRENT_TIME() &lt; '09:30:00' then DATE_ADD(CURRENT_DATE() , INTERVAL - 1 DAY)
 else 
 CURRENT_DATE()
 end

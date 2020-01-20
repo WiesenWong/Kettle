@@ -440,7 +440,7 @@
       <type>SHELL</type>
       <attributes/>
       <filename>C:\Users\wiwang\Desktop\File\Python_Code\work-live\index-fund\fund_analysis.py</filename>
-      <work_directory>C:\Users\wiwang\AppData\Local\Continuum\anaconda3</work_directory>
+      <work_directory>C:\Users\wiwang\AppData\Local\Programs\Python\Python38</work_directory>
       <arg_from_previous>N</arg_from_previous>
       <exec_per_row>N</exec_per_row>
       <set_logfile>N</set_logfile>
@@ -455,8 +455,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>640</xloc>
-      <yloc>112</yloc>
+      <xloc>528</xloc>
+      <yloc>352</yloc>
       <attributes_kjc/>
     </entry>
   </entries>
@@ -466,7 +466,7 @@
       <to>getFundRealTimeVaule</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
       <evaluation>Y</evaluation>
       <unconditional>Y</unconditional>
     </hop>
@@ -502,9 +502,18 @@
       <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>N</enabled>
+      <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Start</from>
+      <to>fund_analysis.py</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
     </hop>
   </hops>
   <notepads>
