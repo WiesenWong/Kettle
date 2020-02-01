@@ -1,4 +1,4 @@
-﻿-- -------------------------------------------------------- 
+-- --------------------------------------------------------
 -- 主机:                           localhost
 -- 服务器版本:                        8.0.19 - MySQL Community Server - GPL
 -- 服务器操作系统:                      Win64
@@ -22,16 +22,19 @@ DROP TABLE IF EXISTS `fund_hold_info`;
 CREATE TABLE IF NOT EXISTS `fund_hold_info` (
   `user` varchar(50) NOT NULL COMMENT '持有人',
   `code` varchar(6) NOT NULL COMMENT '持有基金代码',
+  `fund_type` varchar(10) NOT NULL DEFAULT 'index_fund' COMMENT '基金类型',
+  `fund_name` varchar(50) NOT NULL COMMENT '基金名字',
   `nav` double NOT NULL COMMENT '持有成本净值',
   `share` double NOT NULL COMMENT '持有份额',
   `cost` double NOT NULL COMMENT '持有成本',
+  `time` datetime NOT NULL,
   `createtime` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`user`,`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- 数据导出被取消选择。
 -- 导出  表 index_fund.fund_value_his 结构
-DROP TABLE IF EXISTS `fund_value_his`; 
+DROP TABLE IF EXISTS `fund_value_his`;
 CREATE TABLE IF NOT EXISTS `fund_value_his` (
   `code` varchar(6) NOT NULL COMMENT '指数基金代码',
   `nav` double NOT NULL COMMENT '指数基金净值',
