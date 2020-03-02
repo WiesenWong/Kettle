@@ -294,7 +294,7 @@
       <start>Y</start>
       <dummy>N</dummy>
       <repeat>N</repeat>
-      <schedulerType>2</schedulerType>
+      <schedulerType>0</schedulerType>
       <intervalSeconds>0</intervalSeconds>
       <intervalMinutes>60</intervalMinutes>
       <hour>16</hour>
@@ -309,13 +309,13 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>getFundRealTimeVaule</name>
+      <name>getFundRealTimeValue</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/getFundRealTimeVaule.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/getFundRealTimeValue.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -463,7 +463,7 @@
   <hops>
     <hop>
       <from>Start</from>
-      <to>getFundRealTimeVaule</to>
+      <to>getFundRealTimeValue</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -471,7 +471,7 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>getFundRealTimeVaule</from>
+      <from>getFundRealTimeValue</from>
       <to>getFundHisValue</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>

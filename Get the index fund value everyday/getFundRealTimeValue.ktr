@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>getFundRealTimeVaule</name>
+    <name>getFundRealTimeValue</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -827,8 +827,8 @@
       <field>
         <name>nav</name>
         <path>data.items.[*].nav</path>
-        <type>String</type>
-        <format>#,###.####</format>
+        <type>Number</type>
+        <format>####.####</format>
         <currency/>
         <decimal/>
         <group/>
@@ -840,8 +840,8 @@
       <field>
         <name>percentage</name>
         <path>data.items.[*].percentage</path>
-        <type>String</type>
-        <format>#,###.####</format>
+        <type>Number</type>
+        <format>####.####</format>
         <currency/>
         <decimal/>
         <group/>
